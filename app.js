@@ -57,6 +57,261 @@ function getGoalieDimensions() {
     };
 }
 
+// Draw realistic goalie in standup stance (top-down view)
+function drawGoalieTopStandup(ctx, x, y, width) {
+    const depth = 12;
+
+    // Leg pads (two rectangles)
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(x - width * 0.4, y - depth/2, width * 0.35, depth);
+    ctx.fillRect(x + width * 0.05, y - depth/2, width * 0.35, depth);
+
+    // Body/chest protector
+    ctx.fillStyle = '#E8E8E8';
+    ctx.fillRect(x - width * 0.25, y - depth/2, width * 0.5, depth);
+
+    // Glove (left side)
+    ctx.fillStyle = '#FF6B6B';
+    ctx.beginPath();
+    ctx.arc(x - width * 0.45, y, depth * 0.4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Blocker (right side)
+    ctx.fillStyle = '#4A90E2';
+    ctx.fillRect(x + width * 0.3, y - depth * 0.3, width * 0.2, depth * 0.6);
+
+    // Stick
+    ctx.strokeStyle = '#8B4513';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x + width * 0.4, y);
+    ctx.lineTo(x + width * 0.5, y + depth);
+    ctx.stroke();
+
+    // Helmet (simplified circle)
+    ctx.fillStyle = '#2C3E50';
+    ctx.beginPath();
+    ctx.arc(x, y, depth * 0.35, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Outline
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x - width/2, y - depth/2, width, depth);
+}
+
+// Draw realistic goalie in butterfly stance (top-down view)
+function drawGoalieTopButterfly(ctx, x, y, width) {
+    const depth = 12;
+
+    // Leg pads spread wide in butterfly
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(x - width * 0.48, y - depth/2, width * 0.45, depth);
+    ctx.fillRect(x + width * 0.03, y - depth/2, width * 0.45, depth);
+
+    // Body (compressed in butterfly)
+    ctx.fillStyle = '#E8E8E8';
+    ctx.fillRect(x - width * 0.2, y - depth/2, width * 0.4, depth);
+
+    // Glove extended
+    ctx.fillStyle = '#FF6B6B';
+    ctx.beginPath();
+    ctx.arc(x - width * 0.48, y, depth * 0.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Blocker extended
+    ctx.fillStyle = '#4A90E2';
+    ctx.fillRect(x + width * 0.35, y - depth * 0.4, width * 0.18, depth * 0.8);
+
+    // Stick horizontal across
+    ctx.strokeStyle = '#8B4513';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x - width * 0.2, y + depth * 0.4);
+    ctx.lineTo(x + width * 0.4, y + depth * 0.4);
+    ctx.stroke();
+
+    // Helmet
+    ctx.fillStyle = '#2C3E50';
+    ctx.beginPath();
+    ctx.arc(x, y, depth * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Outline
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x - width/2, y - depth/2, width, depth);
+}
+
+// Draw realistic goalie in standup stance (front view)
+function drawGoalieFrontStandup(ctx, x, y, width, height) {
+    // Leg pads
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(x - width * 0.35, y - height * 0.45, width * 0.3, height * 0.45);
+    ctx.fillRect(x + width * 0.05, y - height * 0.45, width * 0.3, height * 0.45);
+    ctx.strokeStyle = '#CCCCCC';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x - width * 0.35, y - height * 0.45, width * 0.3, height * 0.45);
+    ctx.strokeRect(x + width * 0.05, y - height * 0.45, width * 0.3, height * 0.45);
+
+    // Pants
+    ctx.fillStyle = '#2C3E50';
+    ctx.fillRect(x - width * 0.25, y - height * 0.65, width * 0.5, height * 0.25);
+
+    // Chest protector
+    ctx.fillStyle = '#E8E8E8';
+    ctx.fillRect(x - width * 0.3, y - height * 0.88, width * 0.6, height * 0.3);
+    ctx.strokeStyle = '#AAAAAA';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x - width * 0.3, y - height * 0.88, width * 0.6, height * 0.3);
+
+    // Shoulders
+    ctx.fillStyle = '#D0D0D0';
+    ctx.fillRect(x - width * 0.42, y - height * 0.92, width * 0.2, height * 0.15);
+    ctx.fillRect(x + width * 0.22, y - height * 0.92, width * 0.2, height * 0.15);
+
+    // Glove (left side, raised)
+    ctx.fillStyle = '#FF6B6B';
+    ctx.beginPath();
+    ctx.arc(x - width * 0.45, y - height * 0.75, width * 0.12, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#CC5555';
+    ctx.stroke();
+
+    // Blocker (right side, lower)
+    ctx.fillStyle = '#4A90E2';
+    ctx.fillRect(x + width * 0.25, y - height * 0.68, width * 0.22, height * 0.2);
+    ctx.strokeStyle = '#3A7BC8';
+    ctx.strokeRect(x + width * 0.25, y - height * 0.68, width * 0.22, height * 0.2);
+
+    // Stick
+    ctx.strokeStyle = '#8B4513';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(x + width * 0.35, y - height * 0.5);
+    ctx.lineTo(x + width * 0.42, y);
+    ctx.stroke();
+
+    // Stick blade
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(x + width * 0.38, y - height * 0.05, width * 0.15, height * 0.05);
+
+    // Helmet/mask
+    ctx.fillStyle = '#2C3E50';
+    ctx.beginPath();
+    ctx.arc(x, y - height * 0.92, width * 0.18, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Mask cage
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 1;
+    for (let i = -2; i <= 2; i++) {
+        ctx.beginPath();
+        ctx.moveTo(x + i * width * 0.05, y - height * 0.98);
+        ctx.lineTo(x + i * width * 0.05, y - height * 0.86);
+        ctx.stroke();
+    }
+
+    // Overall outline
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x - width/2, y - height, width, height);
+}
+
+// Draw realistic goalie in butterfly stance (front view)
+function drawGoalieFrontButterfly(ctx, x, y, width, height) {
+    // Leg pads - spread wide and flat
+    ctx.fillStyle = '#FFFFFF';
+    // Left pad
+    ctx.fillRect(x - width * 0.5, y - height * 0.6, width * 0.45, height * 0.6);
+    // Right pad
+    ctx.fillRect(x + width * 0.05, y - height * 0.6, width * 0.45, height * 0.6);
+
+    ctx.strokeStyle = '#CCCCCC';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x - width * 0.5, y - height * 0.6, width * 0.45, height * 0.6);
+    ctx.strokeRect(x + width * 0.05, y - height * 0.6, width * 0.45, height * 0.6);
+
+    // Pad straps
+    ctx.strokeStyle = '#666666';
+    ctx.lineWidth = 2;
+    for (let i = 0; i < 3; i++) {
+        ctx.beginPath();
+        ctx.moveTo(x - width * 0.48, y - height * (0.5 - i * 0.15));
+        ctx.lineTo(x - width * 0.08, y - height * (0.5 - i * 0.15));
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x + width * 0.08, y - height * (0.5 - i * 0.15));
+        ctx.lineTo(x + width * 0.48, y - height * (0.5 - i * 0.15));
+        ctx.stroke();
+    }
+
+    // Body/chest protector (compressed, lower)
+    ctx.fillStyle = '#E8E8E8';
+    ctx.fillRect(x - width * 0.25, y - height * 0.85, width * 0.5, height * 0.3);
+    ctx.strokeStyle = '#AAAAAA';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x - width * 0.25, y - height * 0.85, width * 0.5, height * 0.3);
+
+    // Glove extended out
+    ctx.fillStyle = '#FF6B6B';
+    ctx.beginPath();
+    ctx.arc(x - width * 0.55, y - height * 0.65, width * 0.15, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#CC5555';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Arm to glove
+    ctx.fillStyle = '#D0D0D0';
+    ctx.fillRect(x - width * 0.45, y - height * 0.72, width * 0.22, height * 0.15);
+
+    // Blocker extended out
+    ctx.fillStyle = '#4A90E2';
+    ctx.fillRect(x + width * 0.4, y - height * 0.7, width * 0.25, height * 0.18);
+    ctx.strokeStyle = '#3A7BC8';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x + width * 0.4, y - height * 0.7, width * 0.25, height * 0.18);
+
+    // Arm to blocker
+    ctx.fillStyle = '#D0D0D0';
+    ctx.fillRect(x + width * 0.22, y - height * 0.72, width * 0.22, height * 0.15);
+
+    // Stick horizontal across pads
+    ctx.strokeStyle = '#8B4513';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(x - width * 0.3, y - height * 0.15);
+    ctx.lineTo(x + width * 0.55, y - height * 0.15);
+    ctx.stroke();
+
+    // Stick blade
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(x + width * 0.48, y - height * 0.2, width * 0.18, height * 0.08);
+
+    // Helmet (lower position)
+    ctx.fillStyle = '#2C3E50';
+    ctx.beginPath();
+    ctx.arc(x, y - height * 0.82, width * 0.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Mask cage
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 1;
+    for (let i = -2; i <= 2; i++) {
+        ctx.beginPath();
+        ctx.moveTo(x + i * width * 0.06, y - height * 0.88);
+        ctx.lineTo(x + i * width * 0.06, y - height * 0.76);
+        ctx.stroke();
+    }
+
+    // Overall outline
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x - width/2, y - height, width, height);
+}
+
 // Draw the top-down view
 function drawTopView() {
     const ctx = topCtx;
@@ -162,25 +417,15 @@ function drawTopView() {
         }
     }
 
-    // Draw goalie (top-down view - rectangle)
+    // Draw goalie (top-down view - realistic)
     const goalieDim = getGoalieDimensions();
-    ctx.fillStyle = '#FFFFFF';
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 2;
     const goalieWidthPx = topInchesToPixels(goalieDim.width);
-    const goalieDepthPx = topInchesToPixels(12); // Depth representation
-    ctx.fillRect(
-        goalieCanvasX - goalieWidthPx/2,
-        goalieCanvasY - goalieDepthPx/2,
-        goalieWidthPx,
-        goalieDepthPx
-    );
-    ctx.strokeRect(
-        goalieCanvasX - goalieWidthPx/2,
-        goalieCanvasY - goalieDepthPx/2,
-        goalieWidthPx,
-        goalieDepthPx
-    );
+
+    if (state.stance === 'butterfly') {
+        drawGoalieTopButterfly(ctx, goalieCanvasX, goalieCanvasY, goalieWidthPx);
+    } else {
+        drawGoalieTopStandup(ctx, goalieCanvasX, goalieCanvasY, goalieWidthPx);
+    }
 
     // Draw puck
     ctx.fillStyle = '#000000';
@@ -331,65 +576,11 @@ function drawFrontView() {
         }
     }
 
-    // Draw goalie
-    ctx.fillStyle = '#FFFFFF';
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 3;
-
+    // Draw goalie (front view - realistic)
     if (state.stance === 'butterfly') {
-        // Butterfly stance - wider and lower
-        ctx.fillRect(
-            apparentX - goalieWidthPx/2,
-            bottomY - goalieHeightPx,
-            goalieWidthPx,
-            goalieHeightPx
-        );
-        ctx.strokeRect(
-            apparentX - goalieWidthPx/2,
-            bottomY - goalieHeightPx,
-            goalieWidthPx,
-            goalieHeightPx
-        );
-
-        // Draw pads pattern
-        ctx.strokeStyle = '#2196F3';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(
-            apparentX - goalieWidthPx/2 + 5,
-            bottomY - goalieHeightPx + 5,
-            goalieWidthPx/2 - 10,
-            goalieHeightPx - 10
-        );
-        ctx.strokeRect(
-            apparentX + 5,
-            bottomY - goalieHeightPx + 5,
-            goalieWidthPx/2 - 10,
-            goalieHeightPx - 10
-        );
+        drawGoalieFrontButterfly(ctx, apparentX, bottomY, goalieWidthPx, goalieHeightPx);
     } else {
-        // Standup stance
-        // Body
-        ctx.fillRect(
-            apparentX - goalieWidthPx/2,
-            bottomY - goalieHeightPx,
-            goalieWidthPx,
-            goalieHeightPx
-        );
-        ctx.strokeRect(
-            apparentX - goalieWidthPx/2,
-            bottomY - goalieHeightPx,
-            goalieWidthPx,
-            goalieHeightPx
-        );
-
-        // Chest protector detail
-        ctx.fillStyle = '#2196F3';
-        ctx.fillRect(
-            apparentX - goalieWidthPx/4,
-            bottomY - goalieHeightPx * 0.7,
-            goalieWidthPx/2,
-            goalieHeightPx * 0.4
-        );
+        drawGoalieFrontStandup(ctx, apparentX, bottomY, goalieWidthPx, goalieHeightPx);
     }
 
     // Add label

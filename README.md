@@ -6,27 +6,29 @@ An interactive web application designed to help ice hockey goalies understand th
 
 This educational tool provides real-time visual feedback showing how goalie positioning affects net coverage from different shooting positions. By experimenting with various positions and stances, goalies can develop better spatial awareness and positioning instincts.
 
-## Screenshots
+## Visual Features
 
-### Main Interface
-![Main Interface](screenshots/main-interface.png)
-*The dual-view interface showing both top-down and front perspectives simultaneously*
+### Realistic Goalie Representation
 
-### Top-Down View
-![Top-Down View](screenshots/top-down-view.png)
-*Aerial view of the crease showing shooting angles and uncovered areas in red*
+The app features detailed, realistic goalie silhouettes showing proper equipment:
 
-### Front View (Shooter's Perspective)
-![Front View](screenshots/front-view.png)
-*The net from the shooter's angle, clearly showing available scoring areas*
+**Standup Stance:**
+- White leg pads positioned side-by-side
+- Grey chest protector and shoulder pads
+- Red catching glove (left side, raised)
+- Blue blocker (right side, with stick)
+- Brown wooden stick angled downward
+- Dark helmet with visible cage bars
 
-### Butterfly Stance
-![Butterfly Stance](screenshots/butterfly-stance.png)
-*Goalie in butterfly position - note the wider but shorter coverage*
+**Butterfly Stance:**
+- Leg pads spread wide and flat for maximum coverage
+- Pad straps visible across both legs
+- Lower, compressed body position
+- Extended glove and blocker for wider coverage
+- Stick positioned horizontally across the pads
+- Helmet in lower, crouched position
 
-### Practice Mode
-![Practice Mode](screenshots/practice-mode.png)
-*Shooting area toggled OFF for blind positioning practice*
+Both stances show realistic proportions and proper positioning, helping goalies visualize correct form while learning angles.
 
 ## Features
 
@@ -109,13 +111,7 @@ goalie-angles/
 ├── index.html      # Main HTML structure
 ├── styles.css      # All styling and layout
 ├── app.js          # Core application logic and canvas rendering
-├── README.md       # This file
-└── screenshots/    # Application screenshots (add these!)
-    ├── main-interface.png
-    ├── top-down-view.png
-    ├── front-view.png
-    ├── butterfly-stance.png
-    └── practice-mode.png
+└── README.md       # This file
 ```
 
 ## Technology Stack
@@ -156,19 +152,19 @@ Uses trigonometry to calculate:
 
 - [ ] Save/load preset scenarios
 - [ ] Add shot visualization (puck trajectory)
-- [ ] Include glove/blocker hand positioning
 - [ ] Add tracking of positioning over time
 - [ ] Multi-player mode for coaching sessions
 - [ ] Export positioning reports
 - [ ] Add more goalie sizes (junior, intermediate)
+- [ ] Customizable equipment colors and team jerseys
 
 ## Contributing
 
 This is an educational tool. Suggestions for improvements are welcome! Consider:
-- Adding more realistic goalie representations
 - Improving the perspective calculations
 - Adding drill scenarios
 - Mobile UX enhancements
+- Adding customizable equipment colors
 
 ## License
 
@@ -181,12 +177,3 @@ Created for hockey goalie training and education. Uses official NHL regulation d
 ## Contact
 
 For questions, issues, or suggestions, please open an issue in the repository.
-
----
-
-**Note**: To add screenshots, run the application and capture:
-1. The main interface showing both views
-2. A close-up of the top-down view with visible shooting angles
-3. The front view showing red shaded areas
-4. The butterfly stance activated
-5. The practice mode with shooting area toggled off
