@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hockey Goalie Angles - Training Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f0f0f0;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .control-group label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .toggle-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .toggle-btn.off {
+            background: #f44336;
+        }
+
+        .stats {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .stats .coverage {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .views-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .view {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .view h2 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: grab;
+            background: white;
+        }
+
+        canvas:active {
+            cursor: grabbing;
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .instructions h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 1024px) {
+            .views-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mode-indicator {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .mode-standup {
+            background: #2196F3;
+            color: white;
+        }
+
+        .mode-butterfly {
+            background: #FF9800;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🥅 Hockey Goalie Angles Training Tool</h1>
+        <p class="subtitle">Learn how positioning affects net coverage</p>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Shooting Area:</label>
+                <button class="toggle-btn" id="shootingToggle" onclick="toggleShootingArea()">ON</button>
+            </div>
+            <div class="control-group">
+                <label>Goalie Stance:</label>
+                <button class="toggle-btn" id="stanceToggle" onclick="toggleStance()">STANDUP</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div>Net Coverage: <span class="coverage" id="coverage">0%</span></div>
+        </div>
+
+        <div class="views-container">
+            <div class="view">
+                <h2>Top-Down View</h2>
+                <canvas id="topCanvas" width="600" height="800"></canvas>
+            </div>
+            <div class="view">
+                <h2>Front View (From Puck)</h2>
+                <canvas id="frontCanvas" width="600" height="600"></canvas>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ul>
+                <li><strong>Drag the puck</strong> (black circle) in the top-down view to change the shooting position</li>
+                <li><strong>Drag the goalie</strong> (white rectangle) in either view to reposition</li>
+                <li><strong>Red shaded areas</strong> show where the shooter can score (uncovered net)</li>
+                <li><strong>Toggle "Shooting Area" OFF</strong> to hide the lines and practice positioning, then toggle ON to check</li>
+                <li><strong>Switch between STANDUP and BUTTERFLY</strong> to see how stance affects coverage</li>
+                <li><strong>Watch the coverage percentage</strong> to see how positioning impacts net coverage</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // NHL regulation dimensions (in inches)
+        const GOAL_WIDTH = 72;  // 6 feet
+        const GOAL_HEIGHT = 48; // 4 feet
+        const CREASE_RADIUS = 72; // 6 feet
+        const GOALIE_HEIGHT = 60; // 5 feet
+
+        // Goalie dimensions based on stance
+        const GOALIE_STANDUP_WIDTH = 30; // inches
+        const GOALIE_STANDUP_HEIGHT = 60; // inches
+        const GOALIE_BUTTERFLY_WIDTH = 54; // inches (wider in butterfly)
+        const GOALIE_BUTTERFLY_HEIGHT = 36; // inches (shorter in butterfly)
+
+        // Scale for rendering (pixels per inch)
+        const TOP_SCALE = 4;
+        const FRONT_SCALE = 8;
+
+        // Rink dimensions for top view
+        const RINK_WIDTH = 200 * TOP_SCALE;  // 200 inches wide area
+        const RINK_DEPTH = 300 * TOP_SCALE;  // 300 inches deep area
+
+        // State
+        let state = {
+            puck: { x: 150, y: 200 }, // Position in inches from goal line center
+            goalie: { x: 0, y: 36 }, // Position in inches (x from center, y from goal line)
+            showShootingArea: true,
+            stance: 'standup', // 'standup' or 'butterfly'
+            dragging: null
+        };
+
+        // Canvas contexts
+        const topCanvas = document.getElementById('topCanvas');
+        const frontCanvas = document.getElementById('frontCanvas');
+        const topCtx = topCanvas.getContext('2d');
+        const frontCtx = frontCanvas.getContext('2d');
+
+        // Convert inches to canvas pixels for top view
+        function topInchesToPixels(inches) {
+            return inches * TOP_SCALE;
+        }
+
+        // Convert inches to canvas pixels for front view
+        function frontInchesToPixels(inches) {
+            return inches * FRONT_SCALE;
+        }
+
+        // Get goalie dimensions based on stance
+        function getGoalieDimensions() {
+            if (state.stance === 'butterfly') {
+                return {
+                    width: GOALIE_BUTTERFLY_WIDTH,
+                    height: GOALIE_BUTTERFLY_HEIGHT
+                };
+            }
+            return {
+                width: GOALIE_STANDUP_WIDTH,
+                height: GOALIE_STANDUP_HEIGHT
+            };
+        }
+
+        // Draw the top-down view
+        function drawTopView() {
+            const ctx = topCtx;
+            const width = topCanvas.width;
+            const height = topCanvas.height;
+
+            // Clear canvas
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(0, 0, width, height);
+
+            // Center of goal line
+            const centerX = width / 2;
+            const goalLineY = 100; // pixels from top
+
+            // Draw ice markings
+            ctx.strokeStyle = '#4169E1';
+            ctx.lineWidth = 2;
+
+            // Goal line
+            ctx.beginPath();
+            ctx.moveTo(0, goalLineY);
+            ctx.lineTo(width, goalLineY);
+            ctx.stroke();
+
+            // Draw goal
+            ctx.fillStyle = '#FFFFFF';
+            ctx.strokeStyle = '#FF0000';
+            ctx.lineWidth = 3;
+            const goalWidth = topInchesToPixels(GOAL_WIDTH);
+            ctx.fillRect(centerX - goalWidth/2, goalLineY - 10, goalWidth, 10);
+            ctx.strokeRect(centerX - goalWidth/2, goalLineY - 10, goalWidth, 10);
+
+            // Draw crease
+            ctx.strokeStyle = '#4169E1';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(centerX, goalLineY, topInchesToPixels(CREASE_RADIUS), 0, Math.PI);
+            ctx.stroke();
+
+            // Convert goalie position to canvas coordinates
+            const goalieCanvasX = centerX + topInchesToPixels(state.goalie.x);
+            const goalieCanvasY = goalLineY + topInchesToPixels(state.goalie.y);
+
+            // Draw puck position
+            const puckCanvasX = centerX + topInchesToPixels(state.puck.x);
+            const puckCanvasY = goalLineY + topInchesToPixels(state.puck.y);
+
+            // Draw lines and shading if shooting area is enabled
+            if (state.showShootingArea) {
+                // Goal posts in inches
+                const leftPostX = -GOAL_WIDTH / 2;
+                const rightPostX = GOAL_WIDTH / 2;
+                const postY = 0;
+
+                // Draw lines from puck to goal posts
+                ctx.strokeStyle = '#FFD700';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+
+                // Left post line
+                ctx.beginPath();
+                ctx.moveTo(puckCanvasX, puckCanvasY);
+                ctx.lineTo(centerX + topInchesToPixels(leftPostX), goalLineY + topInchesToPixels(postY));
+                ctx.stroke();
+
+                // Right post line
+                ctx.beginPath();
+                ctx.moveTo(puckCanvasX, puckCanvasY);
+                ctx.lineTo(centerX + topInchesToPixels(rightPostX), goalLineY + topInchesToPixels(postY));
+                ctx.stroke();
+
+                ctx.setLineDash([]);
+
+                // Calculate and shade uncovered areas
+                const goalieDim = getGoalieDimensions();
+                const goalieLeft = state.goalie.x - goalieDim.width / 2;
+                const goalieRight = state.goalie.x + goalieDim.width / 2;
+
+                // Calculate angles and coverage
+                const coverage = calculateCoverage();
+
+                // Draw shaded areas (simplified representation in top view)
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+
+                // Left uncovered area
+                if (goalieLeft > leftPostX) {
+                    ctx.beginPath();
+                    ctx.moveTo(puckCanvasX, puckCanvasY);
+                    ctx.lineTo(centerX + topInchesToPixels(leftPostX), goalLineY);
+                    ctx.lineTo(centerX + topInchesToPixels(goalieLeft), goalLineY + topInchesToPixels(state.goalie.y));
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                // Right uncovered area
+                if (goalieRight < rightPostX) {
+                    ctx.beginPath();
+                    ctx.moveTo(puckCanvasX, puckCanvasY);
+                    ctx.lineTo(centerX + topInchesToPixels(rightPostX), goalLineY);
+                    ctx.lineTo(centerX + topInchesToPixels(goalieRight), goalLineY + topInchesToPixels(state.goalie.y));
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+
+            // Draw goalie (top-down view - rectangle)
+            const goalieDim = getGoalieDimensions();
+            ctx.fillStyle = '#FFFFFF';
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            const goalieWidthPx = topInchesToPixels(goalieDim.width);
+            const goalieDepthPx = topInchesToPixels(12); // Depth representation
+            ctx.fillRect(
+                goalieCanvasX - goalieWidthPx/2,
+                goalieCanvasY - goalieDepthPx/2,
+                goalieWidthPx,
+                goalieDepthPx
+            );
+            ctx.strokeRect(
+                goalieCanvasX - goalieWidthPx/2,
+                goalieCanvasY - goalieDepthPx/2,
+                goalieWidthPx,
+                goalieDepthPx
+            );
+
+            // Draw puck
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(puckCanvasX, puckCanvasY, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Add labels
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 14px Arial';
+            ctx.fillText('GOAL', centerX - 20, goalLineY - 20);
+            ctx.fillText('PUCK', puckCanvasX + 15, puckCanvasY + 5);
+        }
+
+        // Draw the front view
+        function drawFrontView() {
+            const ctx = frontCtx;
+            const width = frontCanvas.width;
+            const height = frontCanvas.height;
+
+            // Clear canvas
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(0, 0, width, height);
+
+            const centerX = width / 2;
+            const bottomY = height - 50;
+
+            // Draw goal
+            ctx.fillStyle = '#FFFFFF';
+            ctx.strokeStyle = '#FF0000';
+            ctx.lineWidth = 4;
+            const goalWidthPx = frontInchesToPixels(GOAL_WIDTH);
+            const goalHeightPx = frontInchesToPixels(GOAL_HEIGHT);
+
+            // Goal frame
+            ctx.strokeRect(
+                centerX - goalWidthPx/2,
+                bottomY - goalHeightPx,
+                goalWidthPx,
+                goalHeightPx
+            );
+
+            // Goal net pattern
+            ctx.strokeStyle = '#CCCCCC';
+            ctx.lineWidth = 1;
+            for (let i = 1; i < 6; i++) {
+                ctx.beginPath();
+                ctx.moveTo(centerX - goalWidthPx/2 + (goalWidthPx * i / 6), bottomY - goalHeightPx);
+                ctx.lineTo(centerX - goalWidthPx/2 + (goalWidthPx * i / 6), bottomY);
+                ctx.stroke();
+            }
+            for (let i = 1; i < 4; i++) {
+                ctx.beginPath();
+                ctx.moveTo(centerX - goalWidthPx/2, bottomY - goalHeightPx + (goalHeightPx * i / 4));
+                ctx.lineTo(centerX + goalWidthPx/2, bottomY - goalHeightPx + (goalHeightPx * i / 4));
+                ctx.stroke();
+            }
+
+            // Calculate perspective: how the goalie appears from puck position
+            // Distance from puck to goalie
+            const distance = Math.sqrt(
+                Math.pow(state.puck.x - state.goalie.x, 2) +
+                Math.pow(state.puck.y - state.goalie.y, 2)
+            );
+
+            // Apparent size based on distance (perspective)
+            const scaleFactor = Math.max(0.3, 150 / (distance + 50));
+
+            // Horizontal offset based on goalie's x position relative to puck angle
+            const angleToGoalie = Math.atan2(state.goalie.x - state.puck.x, state.puck.y - state.goalie.y);
+            const angleToCenter = Math.atan2(-state.puck.x, state.puck.y);
+            const relativeAngle = angleToGoalie - angleToCenter;
+
+            // Apparent horizontal position
+            const apparentX = centerX + (relativeAngle * 1000);
+
+            const goalieDim = getGoalieDimensions();
+            const goalieWidthPx = frontInchesToPixels(goalieDim.width) * scaleFactor;
+            const goalieHeightPx = frontInchesToPixels(goalieDim.height) * scaleFactor;
+
+            // Draw shooting area visualization if enabled
+            if (state.showShootingArea) {
+                // Draw lines from puck perspective to goal posts
+                ctx.strokeStyle = '#FFD700';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([10, 5]);
+
+                // Lines to posts
+                ctx.beginPath();
+                ctx.moveTo(centerX - goalWidthPx/2, bottomY);
+                ctx.lineTo(centerX - goalWidthPx/2, bottomY + 30);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(centerX + goalWidthPx/2, bottomY);
+                ctx.lineTo(centerX + goalWidthPx/2, bottomY + 30);
+                ctx.stroke();
+
+                ctx.setLineDash([]);
+
+                // Calculate covered area
+                const coverage = calculateCoverage();
+
+                // Draw red shaded areas for uncovered parts
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.4)';
+
+                // Left side uncovered
+                const leftEdge = apparentX - goalieWidthPx/2;
+                const leftPost = centerX - goalWidthPx/2;
+                if (leftEdge > leftPost) {
+                    ctx.fillRect(
+                        leftPost,
+                        bottomY - goalHeightPx,
+                        Math.min(leftEdge - leftPost, goalWidthPx),
+                        goalHeightPx
+                    );
+                }
+
+                // Right side uncovered
+                const rightEdge = apparentX + goalieWidthPx/2;
+                const rightPost = centerX + goalWidthPx/2;
+                if (rightEdge < rightPost) {
+                    ctx.fillRect(
+                        Math.max(rightEdge, leftPost),
+                        bottomY - goalHeightPx,
+                        rightPost - Math.max(rightEdge, leftPost),
+                        goalHeightPx
+                    );
+                }
+
+                // Top uncovered (if goalie is shorter than goal)
+                const goalieTop = bottomY - goalieHeightPx;
+                const goalTop = bottomY - goalHeightPx;
+                if (goalieTop > goalTop) {
+                    const overlapLeft = Math.max(leftEdge, leftPost);
+                    const overlapRight = Math.min(rightEdge, rightPost);
+                    if (overlapRight > overlapLeft) {
+                        ctx.fillRect(
+                            overlapLeft,
+                            goalTop,
+                            overlapRight - overlapLeft,
+                            goalieTop - goalTop
+                        );
+                    }
+                }
+            }
+
+            // Draw goalie
+            ctx.fillStyle = '#FFFFFF';
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 3;
+
+            if (state.stance === 'butterfly') {
+                // Butterfly stance - wider and lower
+                ctx.fillRect(
+                    apparentX - goalieWidthPx/2,
+                    bottomY - goalieHeightPx,
+                    goalieWidthPx,
+                    goalieHeightPx
+                );
+                ctx.strokeRect(
+                    apparentX - goalieWidthPx/2,
+                    bottomY - goalieHeightPx,
+                    goalieWidthPx,
+                    goalieHeightPx
+                );
+
+                // Draw pads pattern
+                ctx.strokeStyle = '#2196F3';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(
+                    apparentX - goalieWidthPx/2 + 5,
+                    bottomY - goalieHeightPx + 5,
+                    goalieWidthPx/2 - 10,
+                    goalieHeightPx - 10
+                );
+                ctx.strokeRect(
+                    apparentX + 5,
+                    bottomY - goalieHeightPx + 5,
+                    goalieWidthPx/2 - 10,
+                    goalieHeightPx - 10
+                );
+            } else {
+                // Standup stance
+                // Body
+                ctx.fillRect(
+                    apparentX - goalieWidthPx/2,
+                    bottomY - goalieHeightPx,
+                    goalieWidthPx,
+                    goalieHeightPx
+                );
+                ctx.strokeRect(
+                    apparentX - goalieWidthPx/2,
+                    bottomY - goalieHeightPx,
+                    goalieWidthPx,
+                    goalieHeightPx
+                );
+
+                // Chest protector detail
+                ctx.fillStyle = '#2196F3';
+                ctx.fillRect(
+                    apparentX - goalieWidthPx/4,
+                    bottomY - goalieHeightPx * 0.7,
+                    goalieWidthPx/2,
+                    goalieHeightPx * 0.4
+                );
+            }
+
+            // Add label
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText('NET', centerX - 20, bottomY + 45);
+        }
+
+        // Calculate net coverage percentage
+        function calculateCoverage() {
+            const goalieDim = getGoalieDimensions();
+
+            // Calculate angles from puck to goal posts
+            const leftPostX = -GOAL_WIDTH / 2;
+            const rightPostX = GOAL_WIDTH / 2;
+            const postY = 0;
+
+            // Angle from puck to each post
+            const angleToLeftPost = Math.atan2(leftPostX - state.puck.x, postY - state.puck.y);
+            const angleToRightPost = Math.atan2(rightPostX - state.puck.x, postY - state.puck.y);
+            const totalAngle = angleToRightPost - angleToLeftPost;
+
+            // Angles from puck to goalie edges
+            const goalieLeftX = state.goalie.x - goalieDim.width / 2;
+            const goalieRightX = state.goalie.x + goalieDim.width / 2;
+            const goalieY = state.goalie.y;
+
+            const angleToGoalieLeft = Math.atan2(goalieLeftX - state.puck.x, goalieY - state.puck.y);
+            const angleToGoalieRight = Math.atan2(goalieRightX - state.puck.x, goalieY - state.puck.y);
+
+            // Calculate overlap
+            const overlapLeft = Math.max(angleToLeftPost, angleToGoalieLeft);
+            const overlapRight = Math.min(angleToRightPost, angleToGoalieRight);
+            const coveredAngle = Math.max(0, overlapRight - overlapLeft);
+
+            // Horizontal coverage
+            const horizontalCoverage = (coveredAngle / totalAngle) * 100;
+
+            // Vertical coverage (simplified)
+            const verticalCoverage = Math.min(100, (goalieDim.height / GOAL_HEIGHT) * 100);
+
+            // Combined coverage (weighted toward horizontal)
+            const coverage = (horizontalCoverage * 0.7 + verticalCoverage * 0.3);
+
+            return Math.max(0, Math.min(100, coverage));
+        }
+
+        // Update coverage display
+        function updateCoverage() {
+            const coverage = calculateCoverage();
+            document.getElementById('coverage').textContent = coverage.toFixed(1) + '%';
+
+            const coverageEl = document.getElementById('coverage');
+            if (coverage < 40) {
+                coverageEl.style.color = '#f44336';
+            } else if (coverage < 70) {
+                coverageEl.style.color = '#FF9800';
+            } else {
+                coverageEl.style.color = '#4CAF50';
+            }
+        }
+
+        // Render both views
+        function render() {
+            drawTopView();
+            drawFrontView();
+            updateCoverage();
+        }
+
+        // Toggle shooting area
+        function toggleShootingArea() {
+            state.showShootingArea = !state.showShootingArea;
+            const btn = document.getElementById('shootingToggle');
+            btn.textContent = state.showShootingArea ? 'ON' : 'OFF';
+            btn.classList.toggle('off');
+            render();
+        }
+
+        // Toggle stance
+        function toggleStance() {
+            state.stance = state.stance === 'standup' ? 'butterfly' : 'standup';
+            const btn = document.getElementById('stanceToggle');
+            btn.textContent = state.stance.toUpperCase();
+            render();
+        }
+
+        // Mouse handling for top canvas
+        topCanvas.addEventListener('mousedown', (e) => {
+            const rect = topCanvas.getBoundingClientRect();
+            const scaleX = topCanvas.width / rect.width;
+            const scaleY = topCanvas.height / rect.height;
+            const mouseX = (e.clientX - rect.left) * scaleX;
+            const mouseY = (e.clientY - rect.top) * scaleY;
+
+            const centerX = topCanvas.width / 2;
+            const goalLineY = 100;
+
+            // Check if clicking on puck
+            const puckCanvasX = centerX + topInchesToPixels(state.puck.x);
+            const puckCanvasY = goalLineY + topInchesToPixels(state.puck.y);
+            const distToPuck = Math.sqrt(Math.pow(mouseX - puckCanvasX, 2) + Math.pow(mouseY - puckCanvasY, 2));
+
+            // Check if clicking on goalie
+            const goalieCanvasX = centerX + topInchesToPixels(state.goalie.x);
+            const goalieCanvasY = goalLineY + topInchesToPixels(state.goalie.y);
+            const goalieDim = getGoalieDimensions();
+            const goalieWidthPx = topInchesToPixels(goalieDim.width);
+            const goalieDepthPx = topInchesToPixels(12);
+
+            if (distToPuck < 15) {
+                state.dragging = 'puck-top';
+            } else if (
+                mouseX >= goalieCanvasX - goalieWidthPx/2 &&
+                mouseX <= goalieCanvasX + goalieWidthPx/2 &&
+                mouseY >= goalieCanvasY - goalieDepthPx/2 &&
+                mouseY <= goalieCanvasY + goalieDepthPx/2
+            ) {
+                state.dragging = 'goalie-top';
+                state.dragOffsetX = mouseX - goalieCanvasX;
+                state.dragOffsetY = mouseY - goalieCanvasY;
+            }
+        });
+
+        topCanvas.addEventListener('mousemove', (e) => {
+            if (!state.dragging || !state.dragging.includes('top')) return;
+
+            const rect = topCanvas.getBoundingClientRect();
+            const scaleX = topCanvas.width / rect.width;
+            const scaleY = topCanvas.height / rect.height;
+            const mouseX = (e.clientX - rect.left) * scaleX;
+            const mouseY = (e.clientY - rect.top) * scaleY;
+
+            const centerX = topCanvas.width / 2;
+            const goalLineY = 100;
+
+            if (state.dragging === 'puck-top') {
+                state.puck.x = (mouseX - centerX) / TOP_SCALE;
+                state.puck.y = (mouseY - goalLineY) / TOP_SCALE;
+                // Constrain puck
+                state.puck.x = Math.max(-100, Math.min(100, state.puck.x));
+                state.puck.y = Math.max(12, Math.min(280, state.puck.y));
+            } else if (state.dragging === 'goalie-top') {
+                state.goalie.x = (mouseX - centerX - state.dragOffsetX) / TOP_SCALE;
+                state.goalie.y = (mouseY - goalLineY - state.dragOffsetY) / TOP_SCALE;
+                // Constrain goalie
+                state.goalie.x = Math.max(-50, Math.min(50, state.goalie.x));
+                state.goalie.y = Math.max(6, Math.min(100, state.goalie.y));
+            }
+
+            render();
+        });
+
+        topCanvas.addEventListener('mouseup', () => {
+            if (state.dragging && state.dragging.includes('top')) {
+                state.dragging = null;
+            }
+        });
+
+        topCanvas.addEventListener('mouseleave', () => {
+            if (state.dragging && state.dragging.includes('top')) {
+                state.dragging = null;
+            }
+        });
+
+        // Mouse handling for front canvas
+        frontCanvas.addEventListener('mousedown', (e) => {
+            const rect = frontCanvas.getBoundingClientRect();
+            const scaleX = frontCanvas.width / rect.width;
+            const scaleY = frontCanvas.height / rect.height;
+            const mouseX = (e.clientX - rect.left) * scaleX;
+            const mouseY = (e.clientY - rect.top) * scaleY;
+
+            const centerX = frontCanvas.width / 2;
+            const bottomY = frontCanvas.height - 50;
+
+            // Calculate goalie position in front view
+            const distance = Math.sqrt(
+                Math.pow(state.puck.x - state.goalie.x, 2) +
+                Math.pow(state.puck.y - state.goalie.y, 2)
+            );
+            const scaleFactor = Math.max(0.3, 150 / (distance + 50));
+            const angleToGoalie = Math.atan2(state.goalie.x - state.puck.x, state.puck.y - state.goalie.y);
+            const angleToCenter = Math.atan2(-state.puck.x, state.puck.y);
+            const relativeAngle = angleToGoalie - angleToCenter;
+            const apparentX = centerX + (relativeAngle * 1000);
+
+            const goalieDim = getGoalieDimensions();
+            const goalieWidthPx = frontInchesToPixels(goalieDim.width) * scaleFactor;
+            const goalieHeightPx = frontInchesToPixels(goalieDim.height) * scaleFactor;
+
+            if (
+                mouseX >= apparentX - goalieWidthPx/2 &&
+                mouseX <= apparentX + goalieWidthPx/2 &&
+                mouseY >= bottomY - goalieHeightPx &&
+                mouseY <= bottomY
+            ) {
+                state.dragging = 'goalie-front';
+                state.dragStartX = mouseX;
+                state.dragStartGoalieX = state.goalie.x;
+                state.dragStartGoalieY = state.goalie.y;
+            }
+        });
+
+        frontCanvas.addEventListener('mousemove', (e) => {
+            if (state.dragging !== 'goalie-front') return;
+
+            const rect = frontCanvas.getBoundingClientRect();
+            const scaleX = frontCanvas.width / rect.width;
+            const scaleY = frontCanvas.height / rect.height;
+            const mouseX = (e.clientX - rect.left) * scaleX;
+            const mouseY = (e.clientY - rect.top) * scaleY;
+
+            const deltaX = mouseX - state.dragStartX;
+
+            // Move goalie horizontally
+            // Convert screen delta to angle delta to world position
+            const angleDelta = deltaX / 1000;
+            const angleToCenter = Math.atan2(-state.puck.x, state.puck.y);
+            const newAngle = angleToCenter + angleDelta;
+
+            // Calculate new goalie X position
+            const distance = state.goalie.y;
+            state.goalie.x = state.dragStartGoalieX + deltaX / 10; // Simplified movement
+
+            // Constrain
+            state.goalie.x = Math.max(-50, Math.min(50, state.goalie.x));
+
+            render();
+        });
+
+        frontCanvas.addEventListener('mouseup', () => {
+            if (state.dragging === 'goalie-front') {
+                state.dragging = null;
+            }
+        });
+
+        frontCanvas.addEventListener('mouseleave', () => {
+            if (state.dragging === 'goalie-front') {
+                state.dragging = null;
+            }
+        });
+
+        // Touch support for mobile
+        function addTouchSupport(canvas, type) {
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            });
+
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            });
+
+            canvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                const mouseEvent = new MouseEvent('mouseup', {});
+                canvas.dispatchEvent(mouseEvent);
+            });
+        }
+
+        addTouchSupport(topCanvas, 'top');
+        addTouchSupport(frontCanvas, 'front');
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>
