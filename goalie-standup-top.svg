@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <title>Goalie - Standup Stance (Top-Down View)</title>
+
+  <!-- Background (ice) -->
+  <rect width="400" height="300" fill="#87CEEB"/>
+
+  <!-- Goal Line -->
+  <line x1="0" y1="100" x2="400" y2="100" stroke="#4169E1" stroke-width="3"/>
+
+  <!-- Goal (red) -->
+  <rect x="100" y="90" width="200" height="10" fill="#FFFFFF" stroke="#FF0000" stroke-width="4"/>
+
+  <!-- Crease (semicircle) -->
+  <path d="M 100 100 A 100 100 0 0 1 300 100" fill="none" stroke="#4169E1" stroke-width="3"/>
+
+  <!-- Goalie centered -->
+  <g transform="translate(200, 150)">
+    <!-- Leg Pads (two white rectangles) -->
+    <rect x="-48" y="-24" width="42" height="48" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <rect x="6" y="-24" width="42" height="48" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+
+    <!-- Body/Jersey (white) -->
+    <rect x="-30" y="-24" width="60" height="48" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+
+    <!-- Glove (left side, white circle) -->
+    <circle cx="-54" cy="0" r="9.6" fill="#FFFFFF" stroke="#999999" stroke-width="1.5"/>
+
+    <!-- Blocker (right side, white rectangle) -->
+    <rect x="36" y="-7.2" width="24" height="14.4" fill="#FFFFFF" stroke="#999999" stroke-width="1.5"/>
+
+    <!-- Stick (brown) -->
+    <line x1="48" y1="0" x2="60" y2="24" stroke="#8B4513" stroke-width="3"/>
+
+    <!-- Helmet (white circle) -->
+    <circle cx="0" cy="0" r="8.4" fill="#FFFFFF" stroke="#999999" stroke-width="1.5"/>
+
+    <!-- Overall Outline -->
+    <rect x="-60" y="-24" width="120" height="48" fill="none" stroke="#000000" stroke-width="2"/>
+  </g>
+
+  <!-- Puck -->
+  <circle cx="200" cy="220" r="8" fill="#000000" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="225" y="225" font-size="14" font-weight="bold" fill="#000000">PUCK</text>
+
+  <!-- Label -->
+  <text x="200" y="25" text-anchor="middle" font-size="20" font-weight="bold" fill="#000000">Standup - Top-Down View</text>
+  <text x="200" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#000000">GOAL</text>
+</svg>

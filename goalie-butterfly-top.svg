@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300" viewBox="0 0 500 300">
+  <title>Goalie - Butterfly Stance (Top-Down View)</title>
+
+  <!-- Background (ice) -->
+  <rect width="500" height="300" fill="#87CEEB"/>
+
+  <!-- Goal Line -->
+  <line x1="0" y1="100" x2="500" y2="100" stroke="#4169E1" stroke-width="3"/>
+
+  <!-- Goal (red) -->
+  <rect x="150" y="90" width="200" height="10" fill="#FFFFFF" stroke="#FF0000" stroke-width="4"/>
+
+  <!-- Crease (semicircle) -->
+  <path d="M 150 100 A 100 100 0 0 1 350 100" fill="none" stroke="#4169E1" stroke-width="3"/>
+
+  <!-- Goalie in butterfly (wider) -->
+  <g transform="translate(250, 150)">
+    <!-- Leg Pads spread wide (white) -->
+    <rect x="-103.68" y="-24" width="97.2" height="48" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <rect x="6.48" y="-24" width="97.2" height="48" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+
+    <!-- Body (compressed, white) -->
+    <rect x="-43.2" y="-24" width="86.4" height="48" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+
+    <!-- Glove extended (white circle) -->
+    <circle cx="-103.68" cy="0" r="12" fill="#FFFFFF" stroke="#999999" stroke-width="1.5"/>
+
+    <!-- Blocker extended (white rectangle) -->
+    <rect x="75.6" y="-9.6" width="38.88" height="19.2" fill="#FFFFFF" stroke="#999999" stroke-width="1.5"/>
+
+    <!-- Stick horizontal across (brown) -->
+    <line x1="-43.2" y1="9.6" x2="86.4" y2="9.6" stroke="#8B4513" stroke-width="3"/>
+
+    <!-- Helmet (white circle) -->
+    <circle cx="0" cy="0" r="7.2" fill="#FFFFFF" stroke="#999999" stroke-width="1.5"/>
+
+    <!-- Overall Outline -->
+    <rect x="-108" y="-24" width="216" height="48" fill="none" stroke="#000000" stroke-width="2"/>
+  </g>
+
+  <!-- Puck -->
+  <circle cx="250" cy="220" r="8" fill="#000000" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="275" y="225" font-size="14" font-weight="bold" fill="#000000">PUCK</text>
+
+  <!-- Label -->
+  <text x="250" y="25" text-anchor="middle" font-size="20" font-weight="bold" fill="#000000">Butterfly - Top-Down View</text>
+  <text x="250" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#000000">GOAL</text>
+</svg>

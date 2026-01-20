@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goalie Visuals - Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .svg-container {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .svg-container h2 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .svg-container img {
+            width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .note {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+            margin-top: 20px;
+        }
+
+        .note h3 {
+            color: #1976D2;
+            margin-top: 0;
+        }
+
+        .note p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🥅 Goalie Visual Reference</h1>
+        <p class="subtitle">Preview of goalie representations used in the training app</p>
+
+        <div class="grid">
+            <div class="svg-container">
+                <h2>Standup Stance - Front View</h2>
+                <img src="goalie-standup-front.svg" alt="Goalie in standup stance, front view">
+            </div>
+
+            <div class="svg-container">
+                <h2>Butterfly Stance - Front View</h2>
+                <img src="goalie-butterfly-front.svg" alt="Goalie in butterfly stance, front view">
+            </div>
+
+            <div class="svg-container">
+                <h2>Standup Stance - Top-Down View</h2>
+                <img src="goalie-standup-top.svg" alt="Goalie in standup stance, top-down view">
+            </div>
+
+            <div class="svg-container">
+                <h2>Butterfly Stance - Top-Down View</h2>
+                <img src="goalie-butterfly-top.svg" alt="Goalie in butterfly stance, top-down view">
+            </div>
+        </div>
+
+        <div class="note">
+            <h3>About These Visuals</h3>
+            <p>
+                <strong>Equipment Colors:</strong> All equipment is white (pads, glove, blocker, helmet, jersey)
+                with light grey pants and dark grey helmet cage. The stick is brown with a black blade.
+            </p>
+            <p>
+                <strong>Technical Note:</strong> These are standalone SVG files for visualization purposes.
+                The actual training app uses HTML5 Canvas drawing commands (not SVG files) to render the
+                goalies dynamically with the exact same appearance.
+            </p>
+            <p>
+                <strong>Standup vs Butterfly:</strong> Notice how the butterfly stance is wider (for better
+                horizontal coverage) but shorter (lower to the ice), while standup is taller but narrower.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

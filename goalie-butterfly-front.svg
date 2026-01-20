@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" viewBox="0 0 600 500">
+  <title>Goalie - Butterfly Stance (Front View)</title>
+
+  <!-- Background -->
+  <rect width="600" height="500" fill="#87CEEB"/>
+
+  <!-- Goal Frame -->
+  <rect x="150" y="50" width="300" height="200" fill="none" stroke="#FF0000" stroke-width="4"/>
+
+  <!-- Goal Net Pattern -->
+  <g stroke="#CCCCCC" stroke-width="1">
+    <line x1="200" y1="50" x2="200" y2="250"/>
+    <line x1="250" y1="50" x2="250" y2="250"/>
+    <line x1="300" y1="50" x2="300" y2="250"/>
+    <line x1="350" y1="50" x2="350" y2="250"/>
+    <line x1="400" y1="50" x2="400" y2="250"/>
+    <line x1="150" y1="100" x2="450" y2="100"/>
+    <line x1="150" y1="150" x2="450" y2="150"/>
+    <line x1="150" y1="200" x2="450" y2="200"/>
+  </g>
+
+  <!-- Goalie in butterfly stance -->
+  <g transform="translate(300, 450)">
+    <!-- Leg Pads spread wide (white) -->
+    <!-- Left Pad -->
+    <rect x="-250" y="-216" width="225" height="216" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="2"/>
+    <!-- Right Pad -->
+    <rect x="25" y="-216" width="225" height="216" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="2"/>
+
+    <!-- Pad Straps (dark grey) -->
+    <g stroke="#666666" stroke-width="3">
+      <!-- Left pad straps -->
+      <line x1="-240" y1="-180" x2="-40" y2="-180"/>
+      <line x1="-240" y1="-126" x2="-40" y2="-126"/>
+      <line x1="-240" y1="-72" x2="-40" y2="-72"/>
+      <!-- Right pad straps -->
+      <line x1="40" y1="-180" x2="240" y2="-180"/>
+      <line x1="40" y1="-126" x2="240" y2="-126"/>
+      <line x1="40" y1="-72" x2="240" y2="-72"/>
+    </g>
+
+    <!-- Body/Chest Protector (white, compressed lower) -->
+    <rect x="-50" y="-306" width="100" height="108" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="2"/>
+
+    <!-- Glove extended out (white) -->
+    <circle cx="-275" cy="-234" r="30" fill="#FFFFFF" stroke="#999999" stroke-width="3"/>
+    <!-- Arm to glove (white) -->
+    <rect x="-225" y="-259" width="110" height="54" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="2"/>
+
+    <!-- Blocker extended out (white) -->
+    <rect x="200" y="-252" width="125" height="64.8" fill="#FFFFFF" stroke="#999999" stroke-width="3"/>
+    <!-- Arm to blocker (white) -->
+    <rect x="110" y="-259" width="110" height="54" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="2"/>
+
+    <!-- Stick horizontal across pads -->
+    <line x1="-150" y1="-54" x2="275" y2="-54" stroke="#8B4513" stroke-width="6"/>
+    <!-- Stick Blade -->
+    <rect x="240" y="-72" width="90" height="28.8" fill="#000000"/>
+
+    <!-- Helmet (white, lower position) -->
+    <circle cx="0" cy="-295" r="40" fill="#FFFFFF" stroke="#999999" stroke-width="3"/>
+
+    <!-- Mask Cage (dark grey) -->
+    <g stroke="#666666" stroke-width="1.5">
+      <line x1="-24" y1="-352" x2="-24" y2="-304"/>
+      <line x1="-12" y1="-352" x2="-12" y2="-304"/>
+      <line x1="0" y1="-352" x2="0" y2="-304"/>
+      <line x1="12" y1="-352" x2="12" y2="-304"/>
+      <line x1="24" y1="-352" x2="24" y2="-304"/>
+    </g>
+  </g>
+
+  <!-- Label -->
+  <text x="300" y="30" text-anchor="middle" font-size="24" font-weight="bold" fill="#000000">Butterfly Stance - Front View</text>
+</svg>

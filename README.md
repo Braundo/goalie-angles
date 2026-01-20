@@ -14,19 +14,21 @@ The app features detailed, realistic goalie silhouettes showing proper equipment
 
 **Standup Stance:**
 - White leg pads positioned side-by-side
-- Grey chest protector and shoulder pads
-- Red catching glove (left side, raised)
-- Blue blocker (right side, with stick)
+- White chest protector and jersey
+- White catching glove (left side, raised)
+- White blocker (right side, with stick)
 - Brown wooden stick angled downward
-- Dark helmet with visible cage bars
+- White helmet with dark cage bars
+- Light grey pants
 
 **Butterfly Stance:**
-- Leg pads spread wide and flat for maximum coverage
+- White leg pads spread wide and flat for maximum coverage
 - Pad straps visible across both legs
 - Lower, compressed body position
-- Extended glove and blocker for wider coverage
+- Extended white glove and blocker for wider coverage
 - Stick positioned horizontally across the pads
-- Helmet in lower, crouched position
+- White helmet in lower, crouched position
+- Light grey pants
 
 Both stances show realistic proportions and proper positioning, helping goalies visualize correct form while learning angles.
 
